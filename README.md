@@ -9,6 +9,7 @@ HarmoniFi is a modern music streaming application designed to revolutionize the 
 ## Project Lead
 
 * Oluwamusiwa Olamide David (Project Manager, Backend Developer, Frontend Developer, Database Administrator, AI Specialist)
+* Ukah Emmanuel Ogbonna (Front-End Engineer, UI/UX Designer)
 
 ## Technologies
 
