@@ -36,9 +36,9 @@ function Recommendations() {
   };
 
   return (
-    <div style={{ fontFamily: 'Satoshi', textAlign: 'center', backgroundImage: 'url("https://i.ibb.co/1r2C4XF/music-cover.jpg")', backgroundSize: 'cover', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '2em' }}>
+    <div style={{ fontFamily: 'Satoshi', textAlign: 'center', backgroundImage: 'url("https://i.ibb.co/tBTCCyY/purple-theme-cover.jpg")', backgroundSize: 'cover', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '2em' }}>
       <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi Logo" style={{ width: '400px', marginBottom: '0.2em' }} /> {/* Add your logo here */}
-      <h1 style={{ color: 'white', marginBottom: '0.2em', fontWeight: 'bold', fontSize: '2.4em' }}>Discover New Music with HarmoniFi</h1>
+      <h1 style={{ color: 'white', marginBottom: '0.2em', fontWeight: 'stronge bold', fontSize: '2.4em' }}>Discover New Music with HarmoniFi</h1>
       <select
         value={selectedSong}
         onChange={handleSongChange}
