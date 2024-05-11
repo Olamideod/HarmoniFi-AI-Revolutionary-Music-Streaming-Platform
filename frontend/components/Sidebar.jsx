@@ -4,14 +4,16 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'; // Import Axios
 import { useRouter } from 'next/router' // Import useRouter
 
+
 const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
     const router = useRouter(); // Call useRouter
 
+
     const handleRecommendationClick = async () => {
         try {
-            const response = await axios.post('/api/auth/recommendations');
+            const response = await axios.get('/recommendations');
             const recommendations = response.data;
             // Handle recommendations as needed, e.g., save to session or display on UI
             router.push('/recommendations');
@@ -19,6 +21,7 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
             console.error('Failed to fetch recommendations:', error);
         }
     };
+
 
     useEffect(() => {
         async function fetchPlaylists() {
@@ -39,13 +42,15 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
         fetchPlaylists();
     }, [session]);
 
+
     return (
         <div className='w-64 text-neutral-400 grow-0 shrink-0 h-screen border-r border-neutral-900 p-5 text-sm hidden md:inline-flex'>
             <div className='space-y-4'>
                 <div className='mt-1 mb-5'>
                     {/* Replace the next line with your HarmoniFi image URL */}
-                    <img src="https://i.ibb.co/JKJLL5b/harmonifi-brand.png" alt="HarmoniFi" className="text-white h-12 max-w-[700px]" />
+                    <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi" className="text-white h-12 max-w-[820px]" />
                 </div>
+
 
                 <button onClick={() => setView("home")} className='flex items-center space-x-2 hover:text-white'>
                      <HomeIcon className='h-5 w-5' />
@@ -85,16 +90,18 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                         )
                     })
                 }
-                
+               
                 {/* Button to trigger recommendation */}
                 <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-white'>
                     <HeartIcon className='h-5 w-5' />
                     <p>Get Recommendations</p>
                 </button>
 
+
             </div>
         </div>
     );
 }
+
 
 export default Sidebar;
