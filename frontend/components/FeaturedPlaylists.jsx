@@ -34,7 +34,7 @@ const FeaturedPlaylists = ({ setView, setGlobalPlaylistId }) => {
             <div className='flex flex-wrap gap-6 mb-48'>
                 {playlists.map((playlist) => {
                     return <div onClick={() => selectPlaylist(playlist)} key={playlist.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
-                        <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-[156px] group-hover:top-[148px] right-6'>
+                        <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500  top-[156px] group-hover:top-[148px] right-6'>
                             <PlayIcon className='h-6 w-6 text-black' />
                         </div>
                         <img className='w-48 h-48 mb-4' src={playlist.images[0].url} />

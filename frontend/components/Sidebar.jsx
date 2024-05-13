@@ -1,27 +1,24 @@
 import { BuildingLibraryIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import axios from 'axios'; // Import Axios
-import { useRouter } from 'next/router' // Import useRouter
-
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion'; // Import motion from Framer Motion
 
 const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
-    const router = useRouter(); // Call useRouter
-
+    const router = useRouter();
 
     const handleRecommendationClick = async () => {
         try {
             const response = await axios.get('/recommendations');
             const recommendations = response.data;
-            // Handle recommendations as needed, e.g., save to session or display on UI
             router.push('/recommendations');
         } catch (error) {
             console.error('Failed to fetch recommendations:', error);
         }
     };
-
 
     useEffect(() => {
         async function fetchPlaylists() {
@@ -42,34 +39,38 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
         fetchPlaylists();
     }, [session]);
 
-
     return (
         <div className='w-64 text-neutral-400 grow-0 shrink-0 h-screen border-r border-neutral-900 p-5 text-sm hidden md:inline-flex'>
             <div className='space-y-4'>
-                <div className='mt-1 mb-5'>
-                    {/* Replace the next line with your HarmoniFi image URL */}
-                    <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi" className="text-white h-12 max-w-[820px]" />
-                </div>
+                {/* Apply motion animation to the HarmoniFi logo */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }} // Initial animation state
+                    animate={{ opacity: 1, y: 0 }} // Animation on load
+                    transition={{ duration: 0.5, delay: 0.2 }} // Animation transition properties
+                    className='mt-1 mb-5'
+                >
+                    <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi" className="text-white h-12 max-w-[850px]" />
+                </motion.div>
 
-
-                <button onClick={() => setView("home")} className='flex items-center space-x-2 hover:text-white'>
+   
+                <button onClick={() => setView("home")} className='flex items-center space-x-2 hover:text-purple-500'>
                      <HomeIcon className='h-5 w-5' />
                      <p>Home</p>
                 </button>
-                <button onClick={() => setView("search")} className={`flex items-center space-x-2 hover:text-white ${view == "search" ? "text-white" : null}`}>
+                <button onClick={() => setView("search")} className={`flex items-center space-x-2 hover:text-purple-500 ${view == "search" ? "text-white" : null}`}>
                     <MagnifyingGlassIcon className='h-5 w-5' />
                     <p>Search</p>
                 </button>
-                <button onClick={() => setView("library")} className={`flex items-center space-x-2 hover:text-white ${view == "library" ? "text-white" : null}`}>
+                <button onClick={() => setView("library")} className={`flex items-center space-x-2 hover:text-purple-500 ${view == "library" ? "text-white" : null}`}>
                     <BuildingLibraryIcon className='h-5 w-5' />
                     <p>Your Library</p>
                 </button>
                 <hr className='border-black' />
-                <button className='flex items-center space-x-2 hover:text-white'>
+                <button className='flex items-center space-x-2 hover:text-purple-500'>
                     <PlusCircleIcon className='h-5 w-5' />
                     <p>Create Playlist</p>
                 </button>
-                <button className='flex items-center space-x-2 hover:text-white'>
+                <button className='flex items-center space-x-2 hover:text-purple-500'>
                     <HeartIcon className='h-5 w-5' />
                     <p>Liked Songs</p>
                 </button>
@@ -83,7 +84,7 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                                     setGlobalPlaylistId(playlist.id)
                                 }}
                                 key={playlist.id}
-                                className='cursor-default hover:text-white w-52 truncate'
+                                className='cursor-default hover:text-purple-500 w-52 truncate'
                             >
                                 {playlist.name}
                             </p>
@@ -92,7 +93,7 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                 }
                
                 {/* Button to trigger recommendation */}
-                <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-white'>
+                <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-purple-500'>
                     <HeartIcon className='h-5 w-5' />
                     <p>Get Recommendations</p>
                 </button>
@@ -102,6 +103,4 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
         </div>
     );
 }
-
-
 export default Sidebar;
