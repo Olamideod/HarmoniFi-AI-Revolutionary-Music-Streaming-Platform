@@ -147,3 +147,4 @@ const Artist = ({ setView, globalArtistId, setGlobalArtistId, setGlobalCurrentSo
 }
 
 export default Artist;
+=
