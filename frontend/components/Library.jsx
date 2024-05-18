@@ -30,7 +30,7 @@ const Library = ({ setView, setGlobalPlaylistId }) => {
         <div className='flex-grow h-screen'>
             <header className='text-white sticky top-0 h-20 z-10 text-4xl'>
             </header>
-            <div onClick={() => signOut()} className='absolute z-20 top-5 right-8 flex items-center bg-black bg-opacity-70 text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2'>
+            <div onClick={() => signOut()} className='absolute z-20 top-5 right-8 flex items-center bg-gradient-to-br from-purple-400 to-pink-400 space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2'>
                 <img className='rounded-full w-7 h-7' src={session?.user.image} alt="profile pic" />
                 <p className='text-sm'>Logout</p>
                 <ChevronDownIcon className='h-5 w-5' />
@@ -40,7 +40,7 @@ const Library = ({ setView, setGlobalPlaylistId }) => {
                 <div className='flex flex-wrap gap-6 mb-48'>
                     {playlists.map((playlist) => {
                         return <div onClick={() => selectPlaylist(playlist)} key={playlist.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
-                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-[156px] group-hover:top-[148px] right-6'>
+                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 top-[156px] group-hover:top-[148px] right-6'>
                                 <PlayIcon className='h-6 w-6 text-black' />
                             </div>
                             <img className='w-48 h-48 mb-4' src={playlist.images[0].url} />

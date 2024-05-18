@@ -49,7 +49,7 @@ const SearchResults = ({ playlists, songs, artists, setView, setGlobalPlaylistId
                     <h2 className='text-xl font-bold'>Top result</h2>
                     <div className='h-64 pr-8'>
                         <div onClick={() => selectPlaylist(playlists[0])} className='cursor-pointer relative group h-64 w-full bg-neutral-800 hover:bg-neutral-700 p-4 flex flex-col gap-6 rounded-md transition duration-500'>
-                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-500 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 bottom-6 group-hover:bottom-8 right-8'>
+                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-500 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 bottom-6 group-hover:bottom-8 right-8'>
                                 <PlayIcon className='h-6 w-6 text-black' />
                             </div>
                             {playlists && playlists.length > 0 && (
@@ -90,7 +90,7 @@ const SearchResults = ({ playlists, songs, artists, setView, setGlobalPlaylistId
                 <div className='flex flex-wrap gap-4'>
                     {artists.slice(0, 4).map((artist) => {
                         return <div onClick={() => selectArtist(artist)} key={artist.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
-                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-[156px] group-hover:top-[148px] right-6'>
+                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-500 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 bottom-6 group-hover:bottom-8 right-8'>
                                 <PlayIcon className='h-6 w-6 text-black' />
                             </div>
                             <img className='w-48 h-48 mb-4 rounded-full' src={artist.images && artist.images.length > 0 ? artist.images[0].url : ''} />
@@ -105,7 +105,7 @@ const SearchResults = ({ playlists, songs, artists, setView, setGlobalPlaylistId
                 <div className='flex flex-wrap gap-4'>
                     {playlists.slice(0, 4).map((playlist) => {
                         return <div onClick={() => selectPlaylist(playlist)} key={playlist.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
-                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-[156px] group-hover:top-[148px] right-6'>
+                            <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 top-[156px] group-hover:top-[148px] right-6'>
                                 <PlayIcon className='h-6 w-6 text-black' />
                             </div>
                             <img className='w-48 h-48 mb-4' src={playlist.images[0].url} />
