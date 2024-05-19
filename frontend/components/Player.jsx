@@ -1,90 +1,125 @@
 import { PauseCircleIcon, PlayCircleIcon } from '@heroicons/react/24/solid';
-import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import Script from 'next/script';
+
+const ACCESS_TOKEN = 'BQCYJiFGVYTtIcetiMSz6hpbconMoJq8x7vZg7FpkDXhzWMve-cYK82H9oqz96bZC7j0jurfKqXL1Ir4-P-4rPD_zKTrP5wNdBD9CAM5YPHkfjmTtzLoSmpw2tt9uSLvubVrxHZ3RFucptkMjAxbLi3h_l5SDQifDav4D9lb7BxQKxzxwYRYpa_F58gW3MbTzhEtt3bDnHhfzNFcGtawFhNDtutQ9eHY';
 
 const Player = ({ globalCurrentSongId, setGlobalCurrentSongId, globalIsTrackPlaying, setGlobalIsTrackPlaying }) => {
-    const { data: session } = useSession()
-    const [songInfo, setSongInfo] = useState(null)
+    const [songInfo, setSongInfo] = useState(null);
+    const [player, setPlayer] = useState(null);
+
+    useEffect(() => {
+        const initializePlayer = () => {
+            const spotifyPlayer = new window.Spotify.Player({
+                name: 'HarmoniFi Web Player',
+                getOAuthToken: cb => { cb(ACCESS_TOKEN); },
+                volume: 100
+            });
+
+            setPlayer(spotifyPlayer);
+
+            spotifyPlayer.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            spotifyPlayer.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            spotifyPlayer.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+
+            spotifyPlayer.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+
+            spotifyPlayer.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            spotifyPlayer.addListener('player_state_changed', (state) => {
+                if (!state) return;
+
+                setGlobalIsTrackPlaying(!state.paused);
+                setGlobalCurrentSongId(state.track_window.current_track.id);
+                fetchSongInfo(state.track_window.current_track.id);
+            });
+
+            spotifyPlayer.connect();
+        };
+
+        window.onSpotifyWebPlaybackSDKReady = initializePlayer;
+
+        return () => {
+            if (player) player.disconnect();
+        };
+    }, []);
 
     async function fetchSongInfo(trackId) {
         if (trackId) {
-            const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
-                headers: {
-                    Authorization: `Bearer ${session.accessToken}`
-                }
-            })
-            const data = await response.json()
-            setSongInfo(data)
-        }
-    }
-
-    async function getCurrentlyPlaying() {
-        const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
-            headers: {
-                Authorization: `Bearer ${session.accessToken}`
+            try {
+                const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to fetch song info');
+                const data = await response.json();
+                setSongInfo(data);
+            } catch (error) {
+                console.error('Error fetching song info:', error);
             }
-        })
-        if (response.status == 204) {
-            console.log("204 response from currently playing")
-            return;
         }
-        const data = await response.json()
-        return data
     }
 
     async function handlePlayPause() {
-        if (session && session.accessToken) {
-            const data = await getCurrentlyPlaying()
-            if (data.is_playing) {
-                const response = await fetch("https://api.spotify.com/v1/me/player/pause", {
-                    method: "PUT",
-                    headers: {
-                        Authorization: `Bearer ${session.accessToken}`
-                    }
-                })
-                if (response.status == 204) {
-                    setGlobalIsTrackPlaying(false)
-                }
-            } else {
-                const response = await fetch("https://api.spotify.com/v1/me/player/play", {
-                    method: "PUT",
-                    headers: {
-                        Authorization: `Bearer ${session.accessToken}`
-                    }
-                })
-                if (response.status == 204) {
-                    setGlobalIsTrackPlaying(true)
-                    setGlobalCurrentSongId(data.item.id)
+        if (player) {
+            const state = await player.getCurrentState();
+            if (state) {
+                if (state.paused) {
+                    await player.resume();
+                } else {
+                    await player.pause();
                 }
             }
         }
     }
 
     useEffect(() => {
-        // fetch song details and play song
-        async function f() {
-            if (session && session.accessToken) {
-                if (!globalCurrentSongId) {
-                    // get the currently playing song from spotify
-                    const data = await getCurrentlyPlaying()
-                    setGlobalCurrentSongId(data?.item?.id)
-                    if (data.is_playing) {
-                        setGlobalIsTrackPlaying(true)
-                    }
-                    await fetchSongInfo(data?.item?.id)
-                } else {
-                    // get song info
-                    await fetchSongInfo(globalCurrentSongId)
-                }
-            }
+        if (!globalCurrentSongId) {
+            getCurrentlyPlaying();
+        } else {
+            fetchSongInfo(globalCurrentSongId);
         }
-        f()
-    }, [globalCurrentSongId])
+    }, [globalCurrentSongId]);
+
+    async function getCurrentlyPlaying() {
+        try {
+            const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
+                }
+            });
+            if (response.status === 204) {
+                console.log("204 response from currently playing");
+                return;
+            }
+            if (!response.ok) throw new Error('Failed to fetch currently playing');
+            const data = await response.json();
+            setGlobalCurrentSongId(data?.item?.id);
+            if (data.is_playing) setGlobalIsTrackPlaying(true);
+            fetchSongInfo(data?.item?.id);
+        } catch (error) {
+            console.error('Error fetching currently playing:', error);
+        }
+    }
 
     return (
-        <div className='h-24 bg-neutral-800 border-t border-neutral-700 text-white grid grid-cols-3 text-xs md:text-base px-2 md:px-8'>
+        <div className='h-24 bg-gradient-to-br from-purple-900 to-pink-900 text-black grid grid-cols-3 text-xs md:text-base px-2 md:px-8'>
+            <Script src="https://sdk.scdn.co/spotify-player.js" strategy="afterInteractive" />
             <div className='flex items-center space-x-4'>
-                {songInfo?.album.images[0].url && <img className='hidden md:inline h-10 w-10' src={songInfo.album.images[0].url} />}
+                {songInfo?.album.images[0]?.url && <img className='hidden md:inline h-10 w-10' src={songInfo.album.images[0].url} />}
                 <div>
                     <p className='text-white text-sm'>{songInfo?.name}</p>
                     <p className='text-neutral-400 text-xs'>{songInfo?.artists[0]?.name}</p>
@@ -96,6 +131,6 @@ const Player = ({ globalCurrentSongId, setGlobalCurrentSongId, globalIsTrackPlay
             <div></div>
         </div>
     );
-}
+};
 
 export default Player;

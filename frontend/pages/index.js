@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-screen overflow-hidden bg-gradient-to-bottom from-purple-900 to-transparent bg-pink">
+      <main className="h-screen overflow-hidden bg-gradient-to-bottom from-pink-900 to-transparent bg-pink">
         <div className="flex w-full">
           <Sidebar
             view={view}
