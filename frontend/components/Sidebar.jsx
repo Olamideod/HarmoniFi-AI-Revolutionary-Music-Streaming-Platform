@@ -74,16 +74,25 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                 </button>
                 <hr className='border-neutral-900' />
                 {playlists.map((playlist) => (
-                    <p
+                    <div
+                        key={playlist.id}
                         onClick={() => {
                             setView("playlist");
                             setGlobalPlaylistId(playlist.id);
                         }}
-                        key={playlist.id}
-                        className='cursor-default hover:text-purple-500 w-52 truncate'
+                        className="flex items-center space-x-2 cursor-pointer hover:text-purple-500"
                     >
-                        {playlist.name}
-                    </p>
+                        {playlist.images.length > 0 ? (
+                            <img
+                                src={playlist.images[0].url}
+                                alt={playlist.name}
+                                className="h-8 w-8 rounded-md"
+                            />
+                        ) : (
+                            <BuildingLibraryIcon className="h-5 w-5" />
+                        )}
+                        <p className="w-52 truncate">{playlist.name}</p>
+                    </div>
                 ))}
                 <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-purple-500'>
                     <HeartIcon className='h-5 w-5' />

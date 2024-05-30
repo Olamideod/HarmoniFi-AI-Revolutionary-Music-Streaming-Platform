@@ -5,10 +5,15 @@ import FeaturedPlaylists from './FeaturedPlaylists';
 import SearchResults from './SearchResults';
 
 const Search = ({ setView, setGlobalPlaylistId, setGlobalCurrentSongId, setGlobalIsTrackPlaying, setGlobalArtistId }) => {
-    const { data: session } = useSession()
-    const [searchData, setSearchData] = useState(null)
-    const [inputValue, setInputValue] = useState('')
-    const inputRef = useRef(null)
+    const { data: session } = useSession();
+    const [searchData, setSearchData] = useState(null);
+    const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+        console.log("Session data:", session); // Log session data for debugging
+    }, [inputRef, session]);
 
     async function updateSearchResults(query) {
         const response = await fetch("https://api.spotify.com/v1/search?" + new URLSearchParams({
@@ -18,14 +23,10 @@ const Search = ({ setView, setGlobalPlaylistId, setGlobalCurrentSongId, setGloba
             headers: {
                 Authorization: `Bearer ${session.accessToken}`
             }
-        })
-        const data = await response.json()
-        setSearchData(data)
+        });
+        const data = await response.json();
+        setSearchData(data);
     }
-
-    useEffect(() => {
-        inputRef.current.focus()
-    }, [inputRef])
 
     return (
         <div className='flex-grow h-screen'>
@@ -34,8 +35,8 @@ const Search = ({ setView, setGlobalPlaylistId, setGlobalCurrentSongId, setGloba
                 <input 
                     value={inputValue} 
                     onChange={async (e) => {
-                        setInputValue(e.target.value)
-                        await updateSearchResults(e.target.value)
+                        setInputValue(e.target.value);
+                        await updateSearchResults(e.target.value);
                     }} 
                     ref={inputRef} 
                     className='rounded-full bg-gradient-to-br from-purple-400 to-pink-400 w-100 pl-12 text-white text-base py-2 font-normal outline-0' 
@@ -43,7 +44,11 @@ const Search = ({ setView, setGlobalPlaylistId, setGlobalCurrentSongId, setGloba
                 />
             </header>
             <div onClick={() => signOut()} className='absolute z-20 top-5 right-8 flex items-center bg-gradient-to-br from-purple-400 to-pink-400 space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2'>
-                <img className='rounded-full w-0 h-7' src={session?.user.image} alt="profile pic" />
+                {session?.user?.image ? (
+                    <img className='rounded-full w-7 h-7' src={session.user.image} alt="profile pic" onError={(e) => e.target.style.display = 'none'} />
+                ) : (
+                    <div className='rounded-full w-7 h-7 bg-gray-400' /> // Placeholder for missing image
+                )}
                 <p className='text-sm'>Logout</p>
                 <ChevronDownIcon className='h-5 w-5' />
             </div>
