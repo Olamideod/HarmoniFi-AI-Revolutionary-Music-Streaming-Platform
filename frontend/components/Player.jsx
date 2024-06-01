@@ -2,7 +2,7 @@ import { PauseCircleIcon, PlayCircleIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 
-const ACCESS_TOKEN = 'BQDu7HLCiqL9_I61jUF9PFHar4hixdn8aOYYnL670uzklUfy0sWDU45uiWdx64otNt6bandcwbTxOIul-DaJjrrSNYPWUJCBzjiGy38O5rOTP9iqHeY7HXzJrl-zk_IEn1-UHvcaTA8npD_ZhSpM_X7ar6kx6wqQeeRYS4FfY4FsABPawXPkDqbJY2FDyRcftljalk7cc9IALENCOh0RI47_HKKY8_5m';
+const ACCESS_TOKEN = 'BQBxK53i0zu9JIxqkyALxMWzpR3-hK7av7TaWuig1-AgHSPaoN99l-31WbrklISigxboahm0CsKUndfyBkXfu2HC3HvPJwmleLvKVx9tG-7OU6rxsebS9-S6jRJhuZvQvDHhZAA0Or97rB3bZ_fpGkWCQRDWQcw7k5IKcpUGYVW7CUiNBUjUKvSxYzqgFCuuR0QKOHNP9HXCHUhCVHFaUUC1tl_r0o0O';
 
 const Player = ({ globalCurrentSongId, setGlobalCurrentSongId, globalIsTrackPlaying, setGlobalIsTrackPlaying }) => {
     const [songInfo, setSongInfo] = useState(null);

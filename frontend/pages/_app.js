@@ -2,15 +2,21 @@ import '@/styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import Player from '../components/Player'; // Adjust the path as necessary
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function App() {
   return (
-    <SessionProvider session={session}>
-      <div>
-        <Player />
-        <Component {...pageProps} />
-      </div>
-    </SessionProvider>
+    <div>
+      <Player />
+    </div>
   );
 }
+export default function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+      </SessionProvider>
+  )
+}
 
-export default MyApp;
