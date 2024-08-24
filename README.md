@@ -80,6 +80,10 @@ This section showcases the visual evolution of the HarmoniFi user interface (UI)
 ![image](https://i.ibb.co/BPqZwrv/Screenshot-132.png)
 
 
+## Project Presentation and Demo Link 
+* HarmoniFi Demo: ([https://youtu.be/KZeT0itgB1o?si=mzxHe34-yYO2yPud](https://youtu.be/KZeT0itgB1o?si=mzxHe34-yYO2yPud))
+* HarmoniFi Presentation: ([https://olamide-portfolio.my.canva.site/harmonifi-project-presentation](https://olamide-portfolio.my.canva.site/harmonifi-project-presentation))
+
 
 ## Conclusion
 
