@@ -47,11 +47,14 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className='mt-1 mb-5'
+                    onClick={() => setView("search")}
                 >
-                    <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi" className="text-white h-12 max-w-[850px]" />
+                    <img src="https://i.ibb.co/DD4bjCB/Harmoni-Fi-Brand-FInal.png" alt="HarmoniFi" className="text-white h-12 max-w-[950px]" />
+                    {/* Added the version text beside the logo */}
+                    <p className="text-neutral-500 text-sm ml-2 hover:text-purple-500">version 1.0</p>
                 </motion.div>
 
-                <button onClick={() => setView("home")} className={`flex items-center space-x-2 hover:text-purple-500 ${view === "home" ? "text-white" : ""}`}>
+                <button onClick={() => setView("search")} className={`flex items-center space-x-2 hover:text-purple-500 ${view === "home" ? "text-white" : ""}`}>
                     <HomeIcon className='h-5 w-5' />
                     <p>Home</p>
                 </button>
@@ -73,6 +76,14 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                     <p>Liked Songs</p>
                 </button>
                 <hr className='border-neutral-900' />
+                
+                {/* Added the "Get Recommendations" button here */}
+                <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-purple-500'>
+                    <HeartIcon className='h-5 w-5' />
+                    <p>Get Recommendations</p>
+                </button>
+                
+                {/* Playlist rendering */}
                 {playlists.map((playlist) => (
                     <div
                         key={playlist.id}
@@ -94,10 +105,6 @@ const Sidebar = ({ view, setView, setGlobalPlaylistId }) => {
                         <p className="w-52 truncate">{playlist.name}</p>
                     </div>
                 ))}
-                <button onClick={handleRecommendationClick} className='flex items-center space-x-2 hover:text-purple-500'>
-                    <HeartIcon className='h-5 w-5' />
-                    <p>Get Recommendations</p>
-                </button>
             </div>
         </div>
     );
